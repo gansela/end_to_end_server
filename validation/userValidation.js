@@ -8,8 +8,14 @@ const userSchema = Joi.object({
     password: Joi.string().required(),
 })
 
+const changePassSchema = Joi.object({
+    email: Joi.string().regex(pattern).required(),
+    password: Joi.string().required(),
+    newPassword: Joi.string().required()
+})
+
 function userValidation(req, res, next) {
-    const { error } = userSchema.validate(req.body);
+    const { error } = req.body.newPassword? changePassSchema.validate(req.body) :userSchema.validate(req.body);
     if (error) return res.json({ message: "bad email or passwaord" })
     next();
 }

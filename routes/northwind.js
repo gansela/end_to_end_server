@@ -1,7 +1,8 @@
 const express = require("express")
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const nwPool = require("../db/nwPool")
+const dbtest = require("../db/nwScripts")
+
 
     router.use((req, res, next) => {
         const { authorization } = req.headers
@@ -12,17 +13,11 @@ const nwPool = require("../db/nwPool")
         })
     })
     router.get("/orders", async (req, res, next) => {
-        const [query, params] = getOrdersQuery(req.query)
-        const result = await nwPool.execute(query, params);
-        const [first] = result;
-        console.log(first)
-        res.json(first)
+        const result =  await dbtest.getOrdersData(req.query)
+        res.json(result)
     })
 
 
-function getOrdersQuery(params) {
-    return [`select * from orders `, [...Object.values(params)]]
-}
 
 
 module.exports = router;
