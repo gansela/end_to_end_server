@@ -8,7 +8,16 @@ const poolFunc = require("../db/poolScripts")
 const bcrypt = require('bcryptjs');
 const hashSalt = bcrypt.genSaltSync(parseInt(process.env.HASH_NUM));
 const { isInsertExist, isUserExist, isChangePassword, isCheckPasswords } = poolFunc
+const verify = require("../utils/verify")
 
+router.get("/verify", async (req, res, next) => {
+    const { authorization } = req.headers
+    console.log(authorization)
+    const isVerify =  await verify(authorization)
+    console.log(isVerify)
+    if (!isVerify) return res.json({ errMassage: "verification failed", redirectLogin:true })
+    res.json({ redirectLogin: false })
+})
 
 
 router.use(userValidation)
