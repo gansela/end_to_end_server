@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 
+//  jwt dcript with async await
 async function verifyJwt(token) {
     const result = await jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
         if (err) return false

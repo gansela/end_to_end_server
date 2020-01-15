@@ -9,6 +9,9 @@ async function getOrdersData(params = null) {
     return first
 }
 
+
+//  reducing city for client dropdown
+
 async function getOrdersHeaders(params = null) {
     const data = await nwPool.execute(geyOrdersCategories(), [params = null]);
     const [first] = data;
@@ -23,6 +26,7 @@ async function getOrdersHeaders(params = null) {
     return result
 }
 
+//  dynamic name serch
 async function getCostumersData(params) {
     const { firstname, lastname } = params
     const first_name = `%${firstname}%`

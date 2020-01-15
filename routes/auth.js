@@ -1,7 +1,5 @@
 const express = require("express")
 const router = express.Router();
-// const logger = require("../utils/logger")
-const moment = require("moment")
 const userValidation = require("../validation/userValidation")
 const jwt = require("jsonwebtoken");
 const poolFunc = require("../db/poolScripts")
@@ -9,6 +7,9 @@ const bcrypt = require('bcryptjs');
 const hashSalt = bcrypt.genSaltSync(parseInt(process.env.HASH_NUM));
 const { isInsertExist, isUserExist, isChangePassword, isCheckPasswords } = poolFunc
 const verify = require("../utils/verify")
+
+
+//  verify  session from header
 
 router.get("/verify", async (req, res, next) => {
     const { authorization } = req.headers
@@ -19,12 +20,11 @@ router.get("/verify", async (req, res, next) => {
     res.json({ redirectLogin: false })
 })
 
-
+//  happy joi validation
 router.use(userValidation)
 
 router.use("/signin", async (req, res, next) => {
     const user = await isUserExist(req.body)
-    console.log(user)
     if (user) res.json({ message: "email already exist" })
     next()
 })
@@ -37,6 +37,8 @@ router.post("/signin", async (req, res, next) => {
     res.send({ message: `sign in completed`, redirect: true })
 })
 
+
+//  is user exist for pathes where we continue if user exist
 
 router.use("/", async (req, res, next) => {
     const { email, password } = req.body
@@ -74,7 +76,7 @@ router.post("/changepassword", async (req, res, next) => {
 })
 
 
-
+//  incription as promise
 function getJwt(payload) {
     const result = new Promise((resolve, reject) => {
         resolve(jwt.sign({ payload }, process.env.SECRET_KEY, { expiresIn: '72h' }))
