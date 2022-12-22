@@ -19,7 +19,7 @@
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "jbapp-logger": "^2.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.24.0",
     "mysql2": "^2.0.2",
     "winston": "^3.2.1"
